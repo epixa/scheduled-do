@@ -1,0 +1,13 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "SDO\\": "lib/"
+    }
+  },
+  "require": {
+    "slim/slim": "~2.0",
+    "dogancelik/slim-json": "~0.2",
+    "mnapoli/php-di": "~4.0"
+  }
+}
