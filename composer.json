@@ -7,6 +7,7 @@
   },
   "require": {
     "slim/slim": "~2.0",
+    "container-interop/container-interop": "~1.0",
     "dogancelik/slim-json": "~0.2",
     "mnapoli/php-di": "~4.0"
   },
