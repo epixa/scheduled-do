@@ -12,24 +12,23 @@ class RouteLocatorTest extends \PHPUnit_Framework_TestCase
   protected function setUp() {
     $container = $this->getMock('Interop\\Container\\ContainerInterface');
 
+    // single mock controller with a `bar` action
     $this->controller = $this->getMockBuilder('stdClass')
                              ->setMethods(['bar'])
                              ->getMock();
     $this->request = $this->getMock('stdClass');
     $this->response = $this->getMock('stdClass');
 
-    // all retrieved functions from container should return their own name
-    // so we can ensure the container is accessed with the given input
+    // force the container mock to return the controller mock
     $container->method('get')
               ->will($this->returnValue($this->controller));
 
     $this->locator = new RouteLocator($container, $this->request, $this->response);
   }
 
-  public function testRouteReturnsFnThatInvokesCtrlAction() {
+  public function testRouteToCtrlWithNoArgsAction() {
     $this->controller->expects($this->once())
-                     ->method('bar')
-                     ->with(
+                     ->method('bar')->with(
                        $this->equalTo($this->request),
                        $this->equalTo($this->response)
                      );
@@ -37,8 +36,41 @@ class RouteLocatorTest extends \PHPUnit_Framework_TestCase
     $fn();
   }
 
-  public function testInvokeReturnsFnThatInvokesCtrlAction() {
-    $this->testRouteReturnsFnThatInvokesCtrlAction();
+  public function testRouteToCtrlWithArgsAction() {
+    $this->controller->expects($this->once())
+                     ->method('bar')
+                     ->with(
+                       $this->equalTo('one'),
+                       $this->equalTo(2),
+                       $this->equalTo($this->request),
+                       $this->equalTo($this->response)
+                     );
+    $fn = $this->locator->route('foo@bar');
+    $fn('one', 2);
+  }
+
+  public function testInvokeToCtrlWithNoArgsAction() {
+    $this->controller->expects($this->once())
+                     ->method('bar')->with(
+                       $this->equalTo($this->request),
+                       $this->equalTo($this->response)
+                     );
+    $locator = $this->locator;
+    $fn = $locator('foo@bar');
+    $fn();
+  }
+
+  public function testInvokeToCtrlWithArgsAction() {
+    $this->controller->expects($this->once())
+                     ->method('bar')->with(
+                       $this->equalTo('one'),
+                       $this->equalTo(2),
+                       $this->equalTo($this->request),
+                       $this->equalTo($this->response)
+                     );
+    $locator = $this->locator;
+    $fn = $locator('foo@bar');
+    $fn('one', 2);
   }
 
   /**

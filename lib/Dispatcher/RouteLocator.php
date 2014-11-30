@@ -32,6 +32,9 @@ class RouteLocator
    * The given action name is parsed into a controller object, which is
    * retrieved from the configured container, and a method name that is invoked
    * on that controller.
+   * 
+   * Any arguments given to the returned route callback are proxied directly
+   * through to the controller action.
    *
    * The configured values for request and response are passed as the last two
    * arguments to each action.
@@ -44,13 +47,16 @@ class RouteLocator
   public function route($name) {
     $this->assertValidName($name);
 
-    return function() use ($name) {
+    return function(...$args) use ($name) {
       $pos = strpos($name, '@');
       $controller = substr($name, 0, $pos);
       $action = substr($name, $pos + 1);
 
       $callback = [$this->container->get('controllers.' . $controller), $action];
-      call_user_func($callback, $this->request, $this->response);
+      return call_user_func_array($callback, array_merge(
+        $args,
+        [ $this->request, $this->response ]
+      ));
     };
   }
 
