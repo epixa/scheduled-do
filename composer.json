@@ -1,4 +1,16 @@
 {
+  "name": "epixa/scheduled-do",
+  "description": "Scheduled scaling through the Digital Ocean API",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Court Ewing",
+      "email": "court@epixa.com",
+      "homepage": "http://epixa.com",
+      "role": "Developer"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "App\\": "app/",
