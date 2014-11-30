@@ -2,7 +2,7 @@
 
 namespace SDO\Dispatcher;
 
-class RouteDefiner {
+class RouteLocator {
   protected $container;
   protected $request;
   protected $response;

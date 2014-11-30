@@ -2,34 +2,41 @@
 
 namespace SDO\Dispatcher;
 
-class Routes implements \IteratorAggregate {
+class Routes implements \IteratorAggregate, \ArrayAccess {
   protected $routes;
 
   public function __construct($path) {
     $this->routes = new \ArrayIterator();
 
-    $routes = require $path;
-    if (!is_array($routes)) {
-      throw new \InvalidArgumentException('Route config must return an array: ' . $path);
+    $defineRoutes = require $path;
+    if (!is_callable($defineRoutes)) {
+      throw new \RuntimeException('Route definition is not callable');
     }
 
-    foreach($routes as $route => $action) {
-      $this->addRoute($route, $action);
-    }
-  }
-
-  public function addRoute($route, $action) {
-    $route = explode(' ', $route);
-    $scheme = array_pop($route);
-    $method = strtolower(array_pop($route));
-    $this->routes[] = (object)[
-      'method' => $method,
-      'scheme' => $scheme,
-      'action' => $action
-    ];
+    $defineRoutes(Route::factory($this));
   }
 
   public function getIterator() {
     return $this->routes;
+  }
+
+  public function offsetSet($offset, $value) {
+    if (is_null($offset)) {
+      $this->routes[] = $value;
+    } else {
+      $this->routes[$offset] = $value;
+    }
+  }
+
+  public function offsetExists($offset) {
+    return isset($this->routes[$offset]);
+  }
+
+  public function offsetUnset($offset) {
+    unset($this->routes[$offset]);
+  }
+
+  public function offsetGet($offset) {
+    return isset($this->routes[$offset]) ? $this->routes[$offset] : null;
   }
 }
