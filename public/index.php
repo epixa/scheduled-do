@@ -12,6 +12,7 @@ $app->notfound(function() use ($app) {
 
 $controllersBuilder = new DI\ContainerBuilder();
 $controllersBuilder->addDefinitions(ROOT_PATH . '/config/config.php');
+$controllersBuilder->addDefinitions(ROOT_PATH . '/config/services.php');
 $container = $controllersBuilder->build();
 $container->set('app', $app);
 
