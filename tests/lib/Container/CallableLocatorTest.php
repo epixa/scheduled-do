@@ -5,7 +5,6 @@ namespace SDO\Container;
 class CallableLocatorTest extends \PHPUnit_Framework_TestCase
 {
   protected $locator;
-  protected $tmp;
 
   protected function setUp() {
     $container = $this->getMock('Interop\\Container\\ContainerInterface');
