@@ -1,4 +1,4 @@
-# Scheduled Scaling on Digital Ocean
+# Scheduled Actions on Digital Ocean
 
 [![Build Status](https://travis-ci.org/epixa/scheduled-do.svg?branch=master)](https://travis-ci.org/epixa/scheduled-do)
 

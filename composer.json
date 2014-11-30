@@ -1,6 +1,6 @@
 {
   "name": "epixa/scheduled-do",
-  "description": "Scheduled scaling through the Digital Ocean API",
+  "description": "Scheduled actions through the Digital Ocean API",
   "type": "project",
   "license": "MIT",
   "authors": [
