@@ -13,7 +13,7 @@ return [
 
 
   // controllers
-  'controllers.droplets' => DI\object('App\\Controllers\\Droplets')
+  'controllers.droplets' => DI\object('App\\Controllers\\DropletsCtrl')
     ->method('setSendCallback', DI\link('app.render')),
 
   'controllers.error' => DI\object('App\\Controllers\\Error')

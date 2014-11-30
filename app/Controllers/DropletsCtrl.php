@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use SDO\Response\SendableTrait;
 
-class Droplets {
+class DropletsCtrl {
   use SendableTrait;
 
   public function index($request, $response) {
