@@ -1,5 +1,7 @@
 # Scheduled Scaling on Digital Ocean
 
+[![Build Status](https://travis-ci.org/epixa/scheduled-do.svg?branch=master)](https://travis-ci.org/epixa/scheduled-do)
+
 Very much a work in progress
 
 ### Contributing
