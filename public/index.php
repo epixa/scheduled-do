@@ -19,13 +19,13 @@ $container->set('app', $app);
 $app->add($container->get('middleware.slimjson'));
 
 $routeLocator = new SDO\Dispatcher\RouteLocator($container, $app->request, $app->response);
-$middlewareLocator = new SDO\Dispatcher\MiddlewareLocator($container);
+$callableLocator = new SDO\Container\CallableLocator($container);
 
 $routes = new SDO\Dispatcher\Routes(ROOT_PATH . '/config/routes.php');
 foreach($routes as $route) {
   $r = call_user_func_array([$app, $route->method], array_merge(
     [ $route->path ],
-    array_map($middlewareLocator, $route->middleware),
+    array_map($callableLocator, $route->middleware),
     [ $routeLocator($route->action) ]
   ));
 
