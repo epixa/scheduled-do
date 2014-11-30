@@ -5,9 +5,6 @@ return [
   'controllers.droplets' => DI\object('App\\Controllers\\DropletsCtrl')
     ->method('setSendCallback', DI\link('app.render')),
 
-  'controllers.error' => DI\object('App\\Controllers\\Error')
-    ->method('setSendCallback', DI\link('app.render')),
-
 
   // services
   'services.droplets' => DI\object('App\\Services\\Droplets')
