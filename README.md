@@ -18,4 +18,18 @@ To run tests:
 vendor/bin/phpunit
 ```
 
+To run local web server (on port 8000):
+
+```
+php -S localhost:8000 -t public/
+```
+
 To contribute code, issue pull requests at https://github.com/epixa/scheduled-do/pulls
+
+### Requirements
+
+```
+PHP      ~5.6
+Composer ~1.0
+MySQL    ~5.6
+```
