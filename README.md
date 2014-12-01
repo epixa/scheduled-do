@@ -4,25 +4,35 @@
 
 Very much a work in progress
 
-### Contributing
+### Setup
 
-To install the package dependencies for development:
+Install the package dependencies for development:
 
 ```
 composer install
 ```
 
-To run tests:
+Run migrations:
+
+```
+vendor/bin/phinx migrate
+```
+
+Run a local web server (on port 8000):
+
+```
+php -S localhost:8000 -t public/
+```
+
+### Tests
+
+Tests are written with PHPUnit and located in `tests/`. Run with:
 
 ```
 vendor/bin/phpunit
 ```
 
-To run local web server (on port 8000):
-
-```
-php -S localhost:8000 -t public/
-```
+### Contributing
 
 To contribute code, issue pull requests at https://github.com/epixa/scheduled-do/pulls
 
