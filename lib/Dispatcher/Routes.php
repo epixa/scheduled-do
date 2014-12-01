@@ -5,7 +5,7 @@ namespace SDO\Dispatcher;
 class Routes implements \IteratorAggregate, \ArrayAccess {
   protected $routes;
 
-  public function __construct($path) {
+  public function __construct(callable $routeFactory, $path) {
     $this->routes = new \ArrayIterator();
 
     $defineRoutes = require $path;
@@ -13,7 +13,7 @@ class Routes implements \IteratorAggregate, \ArrayAccess {
       throw new \RuntimeException('Route definition is not callable');
     }
 
-    $defineRoutes(Route::factory($this));
+    $defineRoutes(call_user_func($routeFactory, $this));
   }
 
   public function getIterator() {

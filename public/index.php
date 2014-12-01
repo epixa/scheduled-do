@@ -21,7 +21,7 @@ $app->add($container->get('middleware.slimjson'));
 $routeLocator = new SDO\Dispatcher\RouteLocator($container, $app->request, $app->response);
 $callableLocator = new SDO\Container\CallableLocator($container);
 
-$routes = new SDO\Dispatcher\Routes(ROOT_PATH . '/config/routes.php');
+$routes = new SDO\Dispatcher\Routes('SDO\Dispatcher\Route::factory', ROOT_PATH . '/config/routes.php');
 foreach($routes as $route) {
   $r = call_user_func_array([$app, $route->method], array_merge(
     [ $route->path ],
