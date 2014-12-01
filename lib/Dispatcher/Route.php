@@ -83,7 +83,7 @@ class Route
    * @param null|string $alias
    * @return Route
    */
-  public function alias($alias) {
+  public function alias($alias = null) {
     return self::factory(
       $this->scheme,
       $this->action,
