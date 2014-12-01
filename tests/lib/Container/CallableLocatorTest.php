@@ -33,11 +33,16 @@ class CallableLocatorTest extends \PHPUnit_Framework_TestCase
   }
 
   public function testInvokeWithFunction() {
-    $this->testGetCallableFnWithFunction();
+    $input = function() {};
+    $locator = $this->locator;
+    $fn = $locator($input);
+    $this->assertSame($input, $fn);
   }
 
   public function testInvokeWithName() {
-    $this->testGetCallableFnWithName();
+    $locator = $this->locator;
+    $fn = $locator('foo');
+    $this->assertEquals($fn(), 'foo');
   }
 
   /**
