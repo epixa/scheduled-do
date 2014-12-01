@@ -3,7 +3,8 @@
 return [
   // controllers
   'controllers.droplets' => DI\object('App\\Controllers\\DropletsCtrl')
-    ->method('setSendCallback', DI\link('app.render')),
+    ->method('setSendCallback', DI\link('app.render'))
+    ->method('setDropletsService', DI\link('services.droplets')),
 
 
   // services
@@ -18,17 +19,25 @@ return [
     $user = $container->get('db.user');
     $pass = $container->get('db.pass');
 
-    $dsn = sprintf('mysql:%s;dbname=%s', $host, $name);
+    $dsn = sprintf('mysql:host=%s;dbname=%s', $host, $name);
 
     return new PDO($dsn, $user, $pass, [
-      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+      PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
     ]);
   }),
 
 
   // app
   'app.render' => DI\factory(function($container) {
-    return [$container->get('app'), 'render'];
+    $callback = [$container->get('app'), 'render'];
+    return function($status = null, ...$args) use ($callback) {
+      if (!is_int($status)) {
+        array_unshift($args, $status);
+        $status = 200;
+      }
+      return call_user_func($callback, $status, ...$args);
+    };
   }),
 
 
