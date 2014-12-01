@@ -7,7 +7,6 @@ use \OutOfBoundsException;
 use \LogicException;
 
 class Route {
-  protected $container;
   protected $scheme;
   protected $method;
   protected $path;
@@ -15,8 +14,8 @@ class Route {
   protected $alias;
   protected $middleware = [];
 
-  public static function factory($container, $scheme = null, $action = null, $alias = null, $middleware = []) {
-    return new Route($container, $scheme, $action, $alias, $middleware);
+  public static function factory($scheme = null, $action = null, $alias = null, $middleware = []) {
+    return new Route($scheme, $action, $alias, $middleware);
   }
 
   public function __get($property) {
@@ -28,43 +27,32 @@ class Route {
 
   public function route($scheme, $action) {
     return self::factory(
-      $this->container,
       $scheme,
       $action,
-      null,
+      $this->alias,
       $this->middleware
     );
   }
 
   public function alias($alias) {
-    $this->assertDispatchable();
     return self::factory(
-      $this->container,
       $this->scheme, $this->action,
-      $this->alias,
+      $alias,
       $this->middleware
     );
   }
 
   public function with($middleware) {
     return self::factory(
-      $this->container,
       $this->scheme,
       $this->action,
-      null,
+      $this->alias,
       array_merge($this->middleware, [$middleware])
     );
   }
 
-  public function isDispatchable() {
-    return $this->scheme && $this->action;
-  }
 
-
-  protected function __construct($container, $scheme = null, $action = null, $alias = null, $middleware = []) {
-    $this->assertValidContainer($container);
-    $this->container = $container;
-
+  protected function __construct($scheme = null, $action = null, $alias = null, $middleware = []) {
     if ($scheme || $action) {
       $this->setScheme($scheme);
       $this->setAction($action);
@@ -79,10 +67,6 @@ class Route {
         $this->assertValidMiddleware($m);
         $this->middleware[] = $m;
       }
-    }
-
-    if ($this->isDispatchable()) {
-      $this->container[$this->scheme] = $this;
     }
   }
 
@@ -103,18 +87,6 @@ class Route {
   protected function setAlias($alias) {
     $this->assertValidAlias($alias);
     $this->alias = $alias;
-  }
-
-  protected function assertValidContainer($container) {
-    if (!is_array($container) && !($container instanceof \ArrayAccess)) {
-      throw new InvalidArgumentException('Container must be an array or implement ArrayAccess');
-    }
-  }
-
-  protected function assertDispatchable() {
-    if (!$this->isDispatchable()) {
-      throw new LogicException('Defined route is not dispatchable');
-    }
   }
 
   protected function assertValidAlias($alias) {

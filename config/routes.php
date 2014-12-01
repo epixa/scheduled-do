@@ -1,5 +1,7 @@
 <?php
 
 return function($route) {
-  $route->route('GET /droplets', 'droplets@index')->alias('list-droplets');
+  return [
+    $route->route('GET /droplets', 'droplets@index')->alias('list-droplets')
+  ];
 };

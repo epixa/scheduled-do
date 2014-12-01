@@ -22,8 +22,7 @@ $routeLocator = new SDO\Dispatcher\RouteLocator($container, $app->request, $app-
 $callableLocator = new SDO\Container\CallableLocator($container);
 
 $defineRoutes = require ROOT_PATH . '/config/routes.php';
-$routes = new \ArrayIterator();
-$defineRoutes(SDO\Dispatcher\Route::factory($routes));
+$routes = $defineRoutes(SDO\Dispatcher\Route::factory());
 foreach($routes as $route) {
   $r = call_user_func_array([$app, $route->method], array_merge(
     [ $route->path ],
