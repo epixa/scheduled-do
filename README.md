@@ -15,13 +15,13 @@ composer install
 To run tests:
 
 ```
-composer test
+vendor/bin/phpunit
 ```
 
 To run local web server (on port 8000):
 
 ```
-composer serve
+php -S localhost:8000 -t public/
 ```
 
 To contribute code, issue pull requests at https://github.com/epixa/scheduled-do/pulls
