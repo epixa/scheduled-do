@@ -6,22 +6,32 @@ Very much a work in progress
 
 ### Setup
 
+To set up the dependencies and database, run:
+
+```
+make
+```
+
+**or**
+
 Install the package dependencies for development:
 
 ```
-composer install
+make deps
 ```
 
-Run migrations:
+and run migrations:
 
 ```
-vendor/bin/phinx migrate
+make db
 ```
+
+### Running the app
 
 Run a local web server (on port 8000):
 
 ```
-php -S localhost:8000 -t public/
+make start
 ```
 
 ### Tests
@@ -29,7 +39,7 @@ php -S localhost:8000 -t public/
 Tests are written with PHPUnit and located in `tests/`. Run with:
 
 ```
-vendor/bin/phpunit
+make test
 ```
 
 ### Contributing
